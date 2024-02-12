@@ -1,42 +1,42 @@
 pipeline {
-    agent any
-    
-    environment {
-        TOMCAT_HOME = '/root/apache-tomcat-9.0.85/bin' // Specify the path to your Tomcat installation
-        WAR_FILE = 'my-web-app.war' // Specify the name of your WAR file
-    }
-  
-    stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/durgeshmanish/secopsdemo.git/' // Replace with your Git repository URL
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                sh 'mvn clean package' // Or any other build command you use (e.g., Ant)
-            }
-        }
-        
-        stage('Deploy') {
-            steps {
-                script {
-                    sh "cp target/${WAR_FILE} ${TOMCAT_HOME}/webapps" // Deploy the WAR file to Tomcat webapps directory
-                }
-            }
-        }
-    }
-    
-    post {
-        success {
-            echo 'Deployment successful!'
-            // You can add additional post-deployment steps or notifications here
-        }
-        
-        failure {
-            echo 'Deployment failed!'
-            // You can add failure handling or notifications here
-        }
-    }
+
+	agent any
+
+	tools {
+
+	 maven 'Maven'
+
+}
+
+stages {
+
+	stage ('initialize') {
+
+		steps {
+
+		   sh '''		
+
+				echo "PATH = ${PATH}"
+
+				echo "M2_HOME = ${M2_HOME}"
+
+			'''
+
+}
+
+}
+ 
+ 
+stages ('Build') {
+
+	steps {
+
+		sh 'mvn clean package'
+
+}
+
+}
+ 
+}
+
 }
